@@ -19,12 +19,18 @@ class Counter extends Component {
             )
     }
 
+    saveToDb = (data) => (
+        database.ref('/counter')
+            .set(data)
+    )
+
+
     render () {
         return (
             <div>
                 <h1>{this.state.counter}</h1>
-                <button onClick={()=>{}}>-</button>
-                <button onClick={()=>{}}>+</button>
+                <button onClick={()=>this.saveToDb(this.state.counter - 1)}>-</button>
+                <button onClick={()=>this.saveToDb(this.state.counter + 1)}>+</button>
             </div>
         )
     }

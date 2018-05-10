@@ -1,14 +1,15 @@
 import firebase from 'firebase'
 
 // Initialize Firebase
-var config = {
-    apiKey: "AIzaSyANA3J1L-IuzP3oiBbS0g9Fyv-SMmwlt3w",
-    authDomain: "isa-sandbox-4ffbe.firebaseapp.com",
-    databaseURL: "https://isa-sandbox-4ffbe.firebaseio.com",
-    projectId: "isa-sandbox-4ffbe",
-    storageBucket: "isa-sandbox-4ffbe.appspot.com",
-    messagingSenderId: "1078330621527"
-};
-firebase.initializeApp(config);
+const config = {
+    apiKey: "AIzaSyCCtBGgJWJa0402SGX225csU2Foq5E84j4",
+    authDomain: "jfddl4-sandbox.firebaseapp.com",
+    databaseURL: "https://jfddl4-sandbox.firebaseio.com",
+    projectId: "jfddl4-sandbox",
+    storageBucket: "jfddl4-sandbox.appspot.com",
+    messagingSenderId: "631328808238"
+}
+
+firebase.initializeApp(config)
 
 export const database = firebase.database()

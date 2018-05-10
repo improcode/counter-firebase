@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Counter from './components/Counter'
+import Chat from './components/Chat'
 
 class App extends Component {
 
 
+    render() {
+        return (
+            <div>
+                <Counter/>
+                <hr />
+                <Chat/>
 
-
-  render() {
-    return (
-      <div >
-<Counter />
-
-      </div>
-    );
-  }
+            </div>
+        );
+    }
 }
 
 export default App;
