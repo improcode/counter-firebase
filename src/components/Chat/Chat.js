@@ -1,19 +1,20 @@
 import React from 'react'
 
-import {database} from "../firebase";
-import {mapObjectToArray} from "../utils";
+import {auth, database} from "../../firebase";
+import {mapObjectToArray} from "../../utils";
 
-import moment from 'moment'
 
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import MenuItem from 'material-ui/MenuItem'
+
+
+import ChatAppBar from "./ChatAppBar";
+import Message from "./Message";
 
 
 class Chat extends React.Component {
 
     state = {
-        name: 'Artur',
         newMessage: '',
         messages: null
     }
@@ -31,15 +32,18 @@ class Chat extends React.Component {
 
     addMessage = () => database.ref('/chat').push({
         message: this.state.newMessage,
-        user: this.state.name,
+        user: auth.currentUser.displayName,
+        email: auth.currentUser.email,
+        avatar: auth.currentUser.photoURL,
         timestamp: Date.now()
-    }).then(()=>this.setState({newMessage: ''}))
+    }).then(() => this.setState({newMessage: ''}))
 
 
     render() {
         return (
             <div>
-                <TextField
+                <ChatAppBar/>
+                < TextField
                     name={'new-message'}
                     fullWidth={true}
                     value={this.state.newMessage}
@@ -59,13 +63,12 @@ class Chat extends React.Component {
                         !this.state.messages ?
                             'Ładowanie..'
                             :
-                            this.state.messages.map(
-                                text => (
-                                    <MenuItem key={text.key}>
-                                        <span>[{moment(text.timestamp).format('MMMM Do YYYY, h:mm:ss a')}]  </span>
-                                    <b>{text.user}:</b>
-                                    {text.message}
-                                    </MenuItem>
+                            this.state.messages.map(text => (
+                                    <Message
+                                        key={text.key}
+                                        text={text}
+                                    />
+
                                 )
                             )
                     }
