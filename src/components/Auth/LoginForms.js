@@ -1,14 +1,17 @@
 import React from 'react'
-import {auth, googleProvider} from "../../firebase";
-import LogInByGoogle from './LogInGoogle'
-import LoginByEmailAndPassword from './LoginByEmailAndPassword'
+import { auth, googleProvider } from '../../firebase'
+import LogInByGoogle from './LogInGoogle';
+import LogInByEmailAndPassword from './LoginByEmailAndPassword';
+import CreateUserByEmailAndPassword from './CreateUserByEmailAndPassword';
 
 class LogInForms extends React.Component {
     state = {
         logInEmail: '',
-        logInPassword: ''
+        logInPassword: '',
+        createUserEmail: '',
+        createUserPassword: '',
+        createUserRetypePassword: ''
     }
-
 
     logInByGoogle = () => auth.signInWithPopup(googleProvider)
         .catch(e => alert('Something went wrong!'))
@@ -18,29 +21,49 @@ class LogInForms extends React.Component {
         this.state.logInPassword
     ).catch(e => alert('Something went wrong!'))
 
-    onLogInEmailChange = (e, value) => this.setState({logInEmail: value})
-    onLogInPasswordChange = (e, value) => this.setState({logInPassword: value})
+    createUserByEmailAndPassword = () => {
+        if(this.state.createUserRetypePassword !== this.state.createUserPassword){
+            alert('Passwords dont match!')
+            return
+        }
+
+        auth.createUserWithEmailAndPassword(
+            this.state.createUserEmail,
+            this.state.createUserPassword
+        ).catch(e => alert('Something went wrong!'))
+    }
+
+    onLogInEmailChange = (e, value) => this.setState({ logInEmail: value })
+    onLogInPasswodChange = (e, value) => this.setState({ logInPassword: value })
+
+    onCreateUserEmailChange = (e, value) => this.setState({ createUserEmail: value })
+    onCreateUserPasswodChange = (e, value) => this.setState({ createUserPassword: value })
+    onCreateUserRetypePasswodChange = (e, value) => this.setState({ createUserRetypePassword: value })
 
     render() {
         return (
             <div>
-                <LoginByEmailAndPassword
+                <LogInByEmailAndPassword
                     emailValue={this.state.logInEmail}
                     onEmailChange={this.onLogInEmailChange}
                     passwordValue={this.state.logInPassword}
-                    onPasswordChange={this.onLogInPasswordChange}
+                    onPasswordChange={this.onLogInPasswodChange}
                     onLogInClick={this.logInByEmailAndPassword}
-
                 />
                 <LogInByGoogle
                     onLogInClick={this.logInByGoogle}
                 />
-
+                <CreateUserByEmailAndPassword
+                    emailValue={this.state.createUserEmail}
+                    onEmailChange={this.onCreateUserEmailChange}
+                    passwordValue={this.state.createUserPassword}
+                    onPasswordChange={this.onCreateUserPasswodChange}
+                    retypePasswordValue={this.state.createUserRetypePassword}
+                    onRetypePasswordChange={this.onCreateUserRetypePasswodChange}
+                    onRegisterClick={this.createUserByEmailAndPassword}
+                />
             </div>
         )
-
-
     }
 }
-
 export default LogInForms
